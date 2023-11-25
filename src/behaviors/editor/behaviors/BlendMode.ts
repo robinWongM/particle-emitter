@@ -1,5 +1,52 @@
+import { BLEND_MODES } from 'pixi.js';
 import { BlendModeBehavior } from '../../BlendMode';
-import { BLEND_MODES } from '@pixi/constants';
+
+type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (
+    k: infer I
+) => void
+    ? I
+    : never;
+type UnionToOvlds<U> = UnionToIntersection<
+U extends any ? (f: U) => void : never
+>;
+type PopUnion<U> = UnionToOvlds<U> extends (a: infer A) => void ? A : never;
+type IsUnion<T> = [T] extends [UnionToIntersection<T>] ? false : true;
+type UnionToArray<T, A extends unknown[] = []> = IsUnion<T> extends true
+    ? UnionToArray<Exclude<T, PopUnion<T>>, [PopUnion<T>, ...A]>
+    : [T, ...A];
+const AllBlendModes: UnionToArray<BLEND_MODES> = [
+    'inherit',
+    'normal',
+    'add',
+    'multiply',
+    'screen',
+    'darken',
+    'lighten',
+    'erase',
+    'color-dodge',
+    'color-burn',
+    'linear-burn',
+    'linear-dodge',
+    'linear-light',
+    'hard-light',
+    'soft-light',
+    'pin-light',
+    'difference',
+    'exclusion',
+    'overlay',
+    'saturation',
+    'color',
+    'luminosity',
+    'normal-npm',
+    'add-npm',
+    'screen-npm',
+    'none',
+    'subtract',
+    'divide',
+    'vivid-light',
+    'hard-mix',
+    'negation',
+];
 
 function makeReadable(input: string)
 {
@@ -35,9 +82,7 @@ BlendModeBehavior.editorConfig = {
             description: 'Blend mode of all particles. IMPORTANT - The WebGL renderer only supports the Normal, '
                 + 'Add, Multiply and Screen blend modes. Anything else will silently act like Normal.',
             default: 'NORMAL',
-            options: Object.keys(BLEND_MODES)
-                .filter((key) => !(/\d/).test(key))
-                .map((key) => ({ value: key, label: makeReadable(key) })),
+            options: AllBlendModes.map((key) => ({ value: key, label: makeReadable(key) })),
         },
     ],
 };

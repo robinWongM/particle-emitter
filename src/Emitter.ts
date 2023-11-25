@@ -1,10 +1,8 @@
-import { generateEase, rotatePoint, SimpleEase } from './ParticleUtils';
-import { Particle } from './Particle';
-import { EmitterConfigV3 } from './EmitterConfig';
-import { Container } from '@pixi/display';
-import { Point } from '@pixi/math';
-import { Ticker } from '@pixi/ticker';
+import { Container, Point, Ticker } from 'pixi.js';
 import { BehaviorOrder, IEmitterBehavior, IEmitterBehaviorClass } from './behaviors/Behaviors';
+import { EmitterConfigV3 } from './EmitterConfig';
+import { Particle } from './Particle';
+import { generateEase, rotatePoint, SimpleEase } from './ParticleUtils';
 // get the shared ticker, only supports V5 and V6 with individual packages
 /**
  * @hidden
@@ -384,7 +382,7 @@ export class Emitter
      * Gets the instantiated behavior of the specified type, if it is present on this emitter.
      * @param type The behavior type to find.
      */
-    public getBehavior(type: string): IEmitterBehavior|null
+    public getBehavior(type: string): IEmitterBehavior | null
     {
         // bail if we don't know about such an emitter
         if (!Emitter.knownBehaviors[type]) return null;
@@ -558,8 +556,10 @@ export class Emitter
      * Updates all particles spawned by this emitter and emits new ones.
      * @param delta Time elapsed since the previous frame, in __seconds__.
      */
-    public update(delta: number): void
+    public update(ticker: Ticker): void
     {
+        let delta = ticker.deltaTime;
+
         if (this._autoUpdate)
         {
             delta = ticker.elapsedMS * 0.001;

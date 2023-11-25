@@ -114,11 +114,11 @@ export interface SelectSubConfigProperty
 }
 
 export type Property = NumberProperty | ColorProperty | BooleanProperty | TextProperty | PointProperty | NumberListProperty |
-    ColorListProperty | ImageProperty | ListProperty | ObjectProperty | SelectProperty | SelectSubConfigProperty;
+ColorListProperty | ImageProperty | ListProperty | ObjectProperty | SelectProperty | SelectSubConfigProperty;
 
 export interface BehaviorEditorConfig
 {
-    category: 'art'|'color'|'alpha'|'scale'|'movement'|'rotation'|'blend'|'spawn'|'other';
+    category: 'art' | 'color' | 'alpha' | 'scale' | 'movement' | 'rotation' | 'blend' | 'spawn' | 'other';
     title: string;
     props: Property[];
 }

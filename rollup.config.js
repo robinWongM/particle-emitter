@@ -55,7 +55,7 @@ async function main()
                 sourcemap,
             },
         ],
-        external: [/@pixi\/.*/],
+        external: [/@pixi\/.*/, /pixi\.js/],
         plugins: [jscc({ values: { _IIFE: false } })].concat(plugins)
     });
 
@@ -85,7 +85,7 @@ async function main()
                 }
             },
             treeshake: false,
-            external: [/@pixi\/.*/],
+            external: [/@pixi\/.*/, /pixi\.js/],
             plugins: [jscc({ values: { _IIFE: true } })].concat(plugins),
         });
     }
@@ -102,7 +102,7 @@ async function main()
                 sourcemap,
             },
         ],
-        external: [/@pixi\/.*/],
+        external: [/@pixi\/.*/, /pixi\.js/],
         plugins: [jscc({
             values: {
                 _IIFE: false

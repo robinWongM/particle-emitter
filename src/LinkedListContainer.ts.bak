@@ -1,12 +1,10 @@
-import { Container, DisplayObject } from '@pixi/display';
-import { Renderer, MaskData } from '@pixi/core';
-import { Rectangle } from '@pixi/math';
+import { Container, MaskData, Rectangle, Renderer } from 'pixi.js';
 
 /** Interface for a child of a LinkedListContainer (has the prev/next properties added) */
-export interface LinkedListChild extends DisplayObject
+export interface LinkedListChild extends Container
 {
-    nextChild: LinkedListChild|null;
-    prevChild: LinkedListChild|null;
+    nextChild: LinkedListChild | null;
+    prevChild: LinkedListChild | null;
 }
 
 /**
@@ -18,8 +16,8 @@ export interface LinkedListChild extends DisplayObject
  */
 export class LinkedListContainer extends Container
 {
-    private _firstChild: LinkedListChild|null = null;
-    private _lastChild: LinkedListChild|null = null;
+    private _firstChild: LinkedListChild | null = null;
+    private _lastChild: LinkedListChild | null = null;
     private _childCount = 0;
 
     public get firstChild(): LinkedListChild
@@ -37,7 +35,7 @@ export class LinkedListContainer extends Container
         return this._childCount;
     }
 
-    public addChild<T extends DisplayObject[]>(...children: T): T[0]
+    public addChild<T extends Container[]>(...children: T): T[0]
     {
         // if there is only one argument we can bypass looping through the them
         if (children.length > 1)
@@ -93,7 +91,7 @@ export class LinkedListContainer extends Container
         return children[0];
     }
 
-    public addChildAt<T extends DisplayObject>(child: T, index: number): T
+    public addChildAt<T extends Container>(child: T, index: number): T
     {
         if (index < 0 || index > this._childCount)
         {
@@ -172,7 +170,7 @@ export class LinkedListContainer extends Container
      * @param relative - The current child to add the new child relative to.
      * @return The child that was added.
      */
-    public addChildBelow<T extends DisplayObject>(child: T, relative: DisplayObject): T
+    public addChildBelow<T extends Container>(child: T, relative: Container): T
     {
         if (relative.parent !== this)
         {
@@ -221,7 +219,7 @@ export class LinkedListContainer extends Container
      * @param relative - The current child to add the new child relative to.
      * @return The child that was added.
      */
-    public addChildAbove<T extends DisplayObject>(child: T, relative: DisplayObject): T
+    public addChildAbove<T extends Container>(child: T, relative: Container): T
     {
         if (relative.parent !== this)
         {
@@ -263,7 +261,7 @@ export class LinkedListContainer extends Container
         return child;
     }
 
-    public swapChildren(child: DisplayObject, child2: DisplayObject): void
+    public swapChildren(child: Container, child2: Container): void
     {
         if (child === child2 || child.parent !== this || child2.parent !== this)
         {
@@ -297,7 +295,7 @@ export class LinkedListContainer extends Container
         this.onChildrenChange();
     }
 
-    public getChildIndex(child: DisplayObject): number
+    public getChildIndex(child: Container): number
     {
         let index = 0;
         let test = this._firstChild;
@@ -319,7 +317,7 @@ export class LinkedListContainer extends Container
         return index;
     }
 
-    setChildIndex(child: DisplayObject, index: number): void
+    setChildIndex(child: Container, index: number): void
     {
         if (index < 0 || index >= this._childCount)
         {
@@ -386,7 +384,7 @@ export class LinkedListContainer extends Container
         this.onChildrenChange(index);
     }
 
-    public removeChild<T extends DisplayObject[]>(...children: T): T[0]
+    public removeChild<T extends Container[]>(...children: T): T[0]
     {
         // if there is only one argument we can bypass looping through the them
         if (children.length > 1)
@@ -446,7 +444,7 @@ export class LinkedListContainer extends Container
         return children[0];
     }
 
-    public getChildAt(index: number): DisplayObject
+    public getChildAt(index: number): Container
     {
         if (index < 0 || index >= this._childCount)
         {
@@ -476,7 +474,7 @@ export class LinkedListContainer extends Container
         return target;
     }
 
-    public removeChildAt(index: number): DisplayObject
+    public removeChildAt(index: number): Container
     {
         const child = this.getChildAt(index) as LinkedListChild;
 
@@ -518,7 +516,7 @@ export class LinkedListContainer extends Container
         return child;
     }
 
-    public removeChildren(beginIndex = 0, endIndex = this._childCount): DisplayObject[]
+    public removeChildren(beginIndex = 0, endIndex = this._childCount): Container[]
     {
         const begin = beginIndex;
 
@@ -682,7 +680,7 @@ export class LinkedListContainer extends Container
     public getLocalBounds(rect?: Rectangle, skipChildrenUpdate = false): Rectangle
     {
         // skip Container's getLocalBounds, go directly to DisplayObject
-        const result = DisplayObject.prototype.getLocalBounds.call(this, rect);
+        const result = Container.prototype.getLocalBounds.call(this, rect);
 
         if (!skipChildrenUpdate)
         {
